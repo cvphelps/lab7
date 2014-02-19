@@ -35,7 +35,7 @@ then
 		echo "Attempting to start mongod"
 		
 		rm ~/.mongo_log &> /dev/null
-		$(mongod --fork --logpath ~/.mongo_log &> ~/.mongo_result);
+		$(sudo mongod --fork --logpath ~/.mongo_log &> ~/.mongo_result);
 		mongo_result=$(grep "Unclean shutdown" ~/.mongo_log | wc -l | xargs)
 		
 		if [ "$mongo_result" == "1" ]
@@ -44,7 +44,7 @@ then
 			rm /data/db/mongod.lock
 			rm ~/.mongo_log
 			$(mongod --dbpath /data/db --repair &> ~/.repair_result)
-			$(mongod --fork --logpath ~/.mongo_log &> ~/.mongo_result);
+			$(sudo mongod --fork --logpath ~/.mongo_log &> ~/.mongo_result);
 		fi
 		
 		mongo_start_result=$(grep "started successfully" ~/.mongo_result | wc -l | xargs)
